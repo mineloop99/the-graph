@@ -1,0 +1,14 @@
+{
+  "name": "blocks",
+  "license": "UNLICENSED",
+  "files": [
+    "generated"
+  ],
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "auth": "graph auth --product hosted-service e51e81f5674144c0936e70bd65658453",
+    "deploy": "graph deploy --product hosted-service mineloop99/fantom-blocks",    
+    "prepare:fantom": "mustache ../../config/fantom.json subgraph.yaml > subgraph.yaml"
+  }
+}
