@@ -1,16 +1,16 @@
 specVersion: 0.0.2
 description: Exchange
-repository: https://github.com/mineloop99/subgraph_fantom
+repository: https://github.com/mineloop99/the-graph/subgraph-aurora/exchange
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: fantom
+    network: aurora
     source:
-      address: "0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3"
+      address: "0xc66F594268041dB60507F00703b152492fb176E7"
       abi: Factory
-      startBlock: 379530
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -26,16 +26,16 @@ dataSources:
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ../../packages/abis/ERC20SymbolBytes.json
+          file: ../packages/abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ../../packages/abis/ERC20NameBytes.json
+          file: ../packages/abis/ERC20NameBytes.json
       eventHandlers:
         - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: onPairCreated
 templates:
   - kind: ethereum/contract
     name: Pair
-    network: fantom
+    network: aurora
     source:
       abi: Pair
     mapping:

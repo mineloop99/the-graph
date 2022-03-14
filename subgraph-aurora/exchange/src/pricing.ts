@@ -6,12 +6,12 @@ import {
   FACTORY_ADDRESS,
   MINIMUM_LIQUIDITY_THRESHOLD_ETH,
   NATIVE,
-  BOO_USDT_PAIR,
+  XOXO_USDT_PAIR,
   USDC,
   USDC_WETH_PAIR,
   USDT,
   USDT_WETH_PAIR,
-} from '../../../packages/constants/index.template'
+} from '../../packages/constants/index.template'
 import { Address, BigDecimal, BigInt, dataSource, ethereum, log } from '@graphprotocol/graph-ts'
 import { Pair, Token } from '../generated/schema'
 
@@ -23,7 +23,7 @@ import { Pair as PairContract } from '../generated/templates/Pair/Pair'
 export const factoryContract = FactoryContract.bind(FACTORY_ADDRESS)
 
 export function getSushiPrice(): BigDecimal {
-  const pair = Pair.load(BOO_USDT_PAIR)
+  const pair = Pair.load(XOXO_USDT_PAIR)
 
   if (pair) {
     return pair!.token1Price

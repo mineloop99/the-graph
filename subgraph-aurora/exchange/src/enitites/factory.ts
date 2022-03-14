@@ -1,5 +1,5 @@
 import { Address, ethereum } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, BIG_INT_ZERO, FACTORY_ADDRESS } from '../../../../packages/constants/index.template'
+import { BIG_DECIMAL_ZERO, BIG_INT_ZERO, FACTORY_ADDRESS } from '../../../packages/constants/index.template'
 import { DayData, Factory } from '../../generated/schema'
 
 export function getFactory(id: Address = FACTORY_ADDRESS): Factory {

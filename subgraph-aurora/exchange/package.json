@@ -8,8 +8,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "auth": "graph auth --product hosted-service 42d404c0541f48baa988cfc5ea4c931e",
-    "deploy": "graph deploy --product hosted-service mineloop99/fantom-exchange",    
+    "deploy": "graph deploy --product hosted-service mineloop99/aurora-exchange",    
     "prepare:fantom": "mustache ../../config/fantom.json subgraph.yaml > subgraph.yaml"
   }
 }

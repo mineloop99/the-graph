@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, BIG_INT_ZERO } from '../../../../packages/constants/index.template'
+import { BIG_DECIMAL_ZERO, BIG_INT_ZERO } from '../../../packages/constants/index.template'
 import { LiquidityPosition, Pair } from '../../generated/schema'
 
 import { Pair as PairContract } from '../../generated/templates/Pair/Pair'
