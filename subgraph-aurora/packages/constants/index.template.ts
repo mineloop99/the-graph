@@ -59,17 +59,17 @@ export const FACTORY_ADDRESS = Address.fromString(
 )
  
 export const USDC_WETH_PAIR =
-  "0x905dfcd5649217c42684f23958568e533c711aa3"
+  "0x20F8AeFB5697B77E0BB835A8518BE70775cdA1b0"
 
 export const DAI_WETH_PAIR =
-  "0x905dfcd5649217c42684f23958568e533c711aa3"
+  "0xa9eded3E339b9cd92bB6DEF5c5379d678131fF90"
 
 export const USDT_WETH_PAIR =
-  "0x905dfcd5649217c42684f23958568e533c711aa3"
+  "0x03B666f3488a7992b2385B12dF7f35156d7b29cD"
 
-export const XOXO_USDT_PAIR = "0x905dfcd5649217c42684f23958568e533c711aa3"
+export const XOXO_USDT_PAIR = "0x61C9E05d1Cdb1b70856c7a2c53fA9c220830633c"
 
-export const XOXO_USDT_PAIR_ADDRESS = Address.fromString("0x905dfcd5649217c42684f23958568e533c711aa3")
+export const XOXO_USDT_PAIR_ADDRESS = Address.fromString("0x61C9E05d1Cdb1b70856c7a2c53fA9c220830633c")
 
 export const UNISWAP_XOXO_ETH_PAIR_FIRST_LIQUDITY_BLOCK = BigInt.fromI32(10750005)
 
@@ -83,38 +83,28 @@ export const MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString(
 )
 
 export const XOXO_TOKEN_ADDRESS = Address.fromString(
-  "0x905dfcd5649217c42684f23958568e533c711aa3"
+  "0xFa94348467f64D5A457F75F8bc40495D33c65aBB"
 )
 
 // minimum liquidity for price to get tracked
 export const MINIMUM_LIQUIDITY_THRESHOLD_ETH = BigDecimal.fromString('15000')
 
 export const WETH_ADDRESS = Address.fromString(
-  "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+  "0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB"
 ) 
 
 export const USDT_ADDRESS = Address.fromString(
-  "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+  "0x4988a896b1227218e4A686fdE5EabdcAbd91571f"
 )  
  
 
-export const CONVEX_REWARDERS: Array<Address> = [
-  Address.fromString('0x9e01aac4b3e8781a85b21d9d9f848e72af77b362'),
-  Address.fromString('0x1fd97b5e5a257b0b9b9a42a96bb8870cbdd1eb79'),
-]
-
-export const ALCX_REWARDER = Address.fromString('0x7519c93fc5073e15d89131fd38118d73a72370f8')
-
-export const LIDO_REWARDER = Address.fromString('0x75ff3dd673ef9fc459a52e1054db5df2a1101212')
- 
-
-export const USDC = "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+export const USDC = "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802"
 
 export const USDT = "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
 
-export const DAI = "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+export const DAI = "0xe3520349F477A5F6EB06107066048508498A291b"
 export const NATIVE = Address.fromString(
-  "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+  "0x5eeC60F348cB1D661E4A5122CF4638c7DB7A886e"
 )
 export const WHITELIST: string[] = '{{ whitelist }}'.split(',')
 
