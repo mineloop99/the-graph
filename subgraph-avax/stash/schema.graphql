@@ -1,0 +1,28 @@
+type Stash @entity {
+  id: ID!
+  timestamp: BigDecimal!
+  price: BigDecimal!
+  treasury: BigDecimal!
+  liquidity: BigDecimal!
+  rfv: BigDecimal!
+  backedLiquidity: BigDecimal!
+  averageHolding: BigDecimal!
+}
+
+type Holder @entity {
+  id: ID!
+  address: Bytes!
+  balance: BigDecimal!
+  totalEarned: BigDecimal!
+  token: Token!
+}
+
+type Token @entity {
+  # token address
+  id: ID!
+
+  # factory
+  address: Bytes!
+  holdersCount: BigDecimal!
+  totalSupply: BigDecimal!
+}

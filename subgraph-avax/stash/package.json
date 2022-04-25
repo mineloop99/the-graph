@@ -1,0 +1,14 @@
+{
+  "name": "blocks",
+  "license": "UNLICENSED",
+  "files": [
+    "generated"
+  ],
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --product hosted-service mineloop99/avalanche-stash",    
+    "auth": "npx graph auth --product hosted-service 42d404c0541f48baa988cfc5ea4c931e",
+    "prepare:fantom": "mustache ../../config/fantom.json subgraph.yaml > subgraph.yaml"
+  }
+}
