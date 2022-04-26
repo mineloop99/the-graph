@@ -40,16 +40,17 @@ export function onTransfer(event: TransferEvent): void {
   const balanceTo = getBalance(event.params.to)
   holderFrom.balance = balanceFrom;
   holderTo.balance = balanceTo;
-  if (holderFrom.eventsTransfer.includes(ev.id)) {
+  if (!holderFrom.eventsTransfer.includes(ev.id)) {
       const holderFromEventsTransfer = holderFrom.eventsTransfer
-      holderFromEventsTransfer.push(ev.id)
+      holderFromEventsTransfer.push(event.transaction.hash.toHexString())
       holderFrom.eventsTransfer = holderFromEventsTransfer
   }
-  if (holderTo.eventsTransfer.includes(ev.id)) {
+  if (!holderTo.eventsTransfer.includes(ev.id)) {
     let holderToEventsTransfer = holderTo.eventsTransfer
-    holderToEventsTransfer.push(ev.id)
+    holderToEventsTransfer.push(event.transaction.hash.toHexString())
     holderTo.eventsTransfer = holderToEventsTransfer
   }
+  
   holderFrom.save();
   holderTo.save();
 }
