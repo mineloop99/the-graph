@@ -11,8 +11,8 @@ type Stash @entity {
 
 type Holder @entity {
   id: ID!
-  address: Bytes!
   balance: BigDecimal!
+  epoch: BigDecimal!
   totalEarned: BigDecimal!
   token: Token!
 }

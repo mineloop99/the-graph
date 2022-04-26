@@ -12,6 +12,8 @@ export function getStash(id: Address = STASH_ADDRESS): Stash {
     stash.liquidity = BIG_DECIMAL_ZERO;
     stash.timestamp = BIG_DECIMAL_ZERO;
     stash.treasury = BIG_DECIMAL_ZERO;
+    stash.rfv = BIG_DECIMAL_ZERO;
+    stash.price = BIG_DECIMAL_ZERO;
     stash.save()
   }
 

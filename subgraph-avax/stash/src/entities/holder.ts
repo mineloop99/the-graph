@@ -22,26 +22,7 @@ export function createHolder(address: Address): Holder {
   token.save()
 
   const holder = new Holder(address.toHexString())
-  holder.address = address;
-  holder.token = token.getString(STASH);
-  holder.balance = BIG_DECIMAL_ZERO;
-  holder.totalEarned = BIG_DECIMAL_ZERO;
+  holder.token = token.id;
   holder.save()
   return holder as Holder
-}
-
-
-export function updateHolder(address: Address): Holder {
-  // log.info('Update Holder {}', [address.toHex()])
-  const Holder = getHolder(address)
-
-  return Holder as Holder
-}
-
-
-export function updateHolders(addresses: Address[]): void {
-  log.info('Update Holders', [])
-  for (let i = 0; i < addresses.length; i++) {
-    updateHolder(addresses[i])
-  }
 }
