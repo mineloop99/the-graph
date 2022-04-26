@@ -12,7 +12,7 @@ import {
   getBalance, getDecimals, getToken,
 } from '../entities'
 import { getHolder } from '../entities/holder'
-import { Bytes, ethereum } from '@graphprotocol/graph-ts'
+import { BigDecimal, Bytes, ethereum } from '@graphprotocol/graph-ts'
 export function onTransfer(event: TransferEvent): void {
   const token = getToken()
   if (token === null) {
@@ -30,7 +30,7 @@ export function onTransfer(event: TransferEvent): void {
   ev.transaction = event.transaction.hash
 	ev.timestamp   = event.block.timestamp.toBigDecimal()
 	ev.contract    = event.address
-	ev.value       = event.params.value.times(getDecimals().digits).toBigDecimal()
+	ev.value       = event.params.value.times(getDecimals().times(BigDecimal.fromString('10')).digits).toBigDecimal()
 	ev.valueExact  = event.params.value.toBigDecimal()
   ev.from = event.params.from
   ev.to = event.params.to
