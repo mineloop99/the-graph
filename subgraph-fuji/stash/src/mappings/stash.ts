@@ -19,13 +19,14 @@ export function onTransfer(event: TransferEvent): void {
     return
   }
   // Force creation of users if not already known will be lazily created
-  getHolder(event.params.from)
+  const holderFrom = getHolder(event.params.from)
 
-  const holder = getHolder(event.params.to)
+  const holderTo = getHolder(event.params.to)
   // liquidity token amount being transfered
   // const value = event.params.value.divDecimal(BigDecimal.fromString('1e18'))
 
-	let ev         = new EventTransfer(event.address.toHexString())
+  let ev = new EventTransfer(event.transaction.hash.toHexString())
+
 	ev.emitter     = event.address
   ev.transaction = event.transaction.hash
 	ev.timestamp   = event.block.timestamp.toBigDecimal()
@@ -35,10 +36,22 @@ export function onTransfer(event: TransferEvent): void {
   ev.from = event.params.from
   ev.to = event.params.to
   ev.save()
-  const balance = getBalance(event.params.to)
-  holder.balance = balance;
-  holder.eventsTransfer.push(ev.id)
-  holder.save();
+  const balanceFrom = getBalance(event.params.from)
+  const balanceTo = getBalance(event.params.to)
+  holderFrom.balance = balanceFrom;
+  holderTo.balance = balanceTo;
+  if (holderFrom.eventsTransfer.includes(ev.id)) {
+      const holderFromEventsTransfer = holderFrom.eventsTransfer
+      holderFromEventsTransfer.push(ev.id)
+      holderFrom.eventsTransfer = holderFromEventsTransfer
+  }
+  if (holderTo.eventsTransfer.includes(ev.id)) {
+    let holderToEventsTransfer = holderTo.eventsTransfer
+    holderToEventsTransfer.push(ev.id)
+    holderTo.eventsTransfer = holderToEventsTransfer
+  }
+  holderFrom.save();
+  holderTo.save();
 }
 
 export function onLogRebase(event: LogRebaseEvent): void {

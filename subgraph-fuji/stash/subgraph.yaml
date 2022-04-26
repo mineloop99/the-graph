@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Stash
-    network: avalanche
+    network: fuji
     source:
-      address: "0xc7198437980c041c805A1EDcbA50c1Ce5db95118"
+      address: "0x120aD7a35481Fc86Fe5038468133FFCAC495e1B9"
       abi: Stash
-      startBlock: 8000000
+      startBlock: 8700000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
