@@ -14,7 +14,20 @@ type Holder @entity {
   balance: BigDecimal!
   epoch: BigDecimal!
   totalEarned: BigDecimal!
+  eventTransfer: EventTransfer!
   token: Token!
+}
+
+type EventTransfer @entity {
+  id: ID!
+  emitter: Bytes!
+  transaction: Bytes!
+  timestamp: BigDecimal!
+  contract: Bytes!
+  value: BigDecimal!
+  valueExact: BigDecimal!
+  from: Bytes!
+  to: Bytes!
 }
 
 type Token @entity {

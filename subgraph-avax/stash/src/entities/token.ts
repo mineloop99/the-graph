@@ -46,3 +46,14 @@ export function getBalance(address:Address): BigDecimal {
   }
     return BIG_DECIMAL_ZERO
 }
+
+export function getDecimals(): BigDecimal {
+  const contract = ERC20.bind(STASH_ADDRESS)
+  let decimals:BigDecimal
+  const decimalsResult = contract.try_decimals()
+  if (!decimalsResult.reverted) { 
+      decimals = BigInt.fromI32(decimalsResult.value).toBigDecimal()
+      return decimals 
+  }
+    return BIG_DECIMAL_ZERO
+}
