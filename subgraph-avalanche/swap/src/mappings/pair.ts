@@ -328,7 +328,7 @@ export function onSync(event: SyncEvent): void {
   // update ETH price now that reserves could have changed
   const bundle = getBundle()
   // Pass the block so we can get accurate price data before migration
-  bundle.avaxPrice = getAvaxPrice( )
+  bundle.avaxPrice = getAvaxPrice()
   bundle.save()
 
   token0!.derivedAVAX = findAvaxPerToken(token0 as Token)

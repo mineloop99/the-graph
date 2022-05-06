@@ -27,13 +27,13 @@ export function getXoXoPrice(): BigDecimal {
 
 export function getAvaxPrice(): BigDecimal {
   const contract = AggregatorV3Contract.bind(AVAX_USD_ADDRESS)
-  let balance:BigDecimal
-  const balanceResult = contract.try_latestRoundData()
-  if (!balanceResult.reverted) { 
-      balance = balanceResult.value.value1.toBigDecimal()
-      return balance
+  let amount:BigDecimal
+  const amountResult = contract.try_latestRoundData()
+  if (!amountResult.reverted) { 
+      amount = amountResult.value.value1.toBigDecimal()
+      return amount
   }
-    return BIG_DECIMAL_ZERO
+  return BIG_DECIMAL_ZERO
 }
 
 
