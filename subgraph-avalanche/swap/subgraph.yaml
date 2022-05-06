@@ -18,12 +18,9 @@ dataSources:
       file: ./src/mappings/factory.ts
       entities:
         - Factory
-        - AggregatorV3
       abis:
         - name: Factory
           file: ./abis/UniswapV2Factory.json
-        - name: AggregatorV3
-          file: ./abis/AggregatorV3.json
         - name: Pair
           file: ./abis/UniswapV2Pair.json
         - name: ERC20
@@ -35,8 +32,6 @@ dataSources:
       eventHandlers:
         - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: onPairCreated
-        - event: NewRound(indexed uint256,indexed address,uint256)
-          handler: onNewRound
 templates:
   - kind: ethereum/contract
     name: Pair
@@ -76,3 +71,18 @@ templates:
           handler: onTransfer
         - event: Sync(uint112,uint112)
           handler: onSync
+  - kind: ethereum/contract
+    name: AggregatorV3
+    network: avalanche
+    source:
+      abi: AggregatorV3
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AggregatorV3
+      file: ./src/mappings/pair.ts
+      abis:
+        - name: AggregatorV3
+          file: ./abis/AggregatorV3.json

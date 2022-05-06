@@ -9,6 +9,5 @@ export function getBundle(): Bundle {
     bundle.avaxPrice = BIG_DECIMAL_ZERO
     bundle.save()
   }
-
   return bundle as Bundle
 }

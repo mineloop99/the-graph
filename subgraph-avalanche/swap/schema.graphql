@@ -175,12 +175,6 @@ type Token @entity {
   quotePairsDayData: [PairDayData!]! @derivedFrom(field: "token1")
 }
 
-type AggregatorV3 @entity {
-  # token address
-  id: ID!
-  price: BigDecimal!
-}
-
 # Token hour data
 type TokenHourData @entity {
   # token id - hour start timestamp

@@ -44,30 +44,6 @@ export function getToken(address: Address): Token | null {
 }
 
 export function getSymbol(address: Address): string {
-  // hard coded override
-  if (address.toHex() == '0xe0b7927c4af23765cb51314a0e0521a9645f0e2a') {
-    return 'DGD'
-  }
-  if (address.toHex() == '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9') {
-    return 'AAVE'
-  }
-  if (address.toHex() == '0x5dbcf33d8c2e976c6b560249878e6f1491bca25c') {
-    return 'yUSD'
-  }
-  if (address.toHex() == '0x0309c98b1bffa350bcb3f9fb9780970ca32a5060') {
-    return 'BDI'
-  }
-  if (address.toHex() == '0x3fa729b4548becbad4eab6ef18413470e6d5324c') {
-    return 'MOVE'
-  }
-  if (address.toHex() == '0xe95a203b1a91a908f9b9ce46459d101078c2c3cb') {
-    return 'aETHc'
-  }
-
-  // CELO hardcode
-  if (address.toHex() == '0x471ece3750da237f93b8e339c536989b8978a438') {
-    return 'CELO'
-  }
 
   const contract = ERC20.bind(address)
   const contractSymbolBytes = ERC20SymbolBytes.bind(address)
@@ -91,33 +67,6 @@ export function getSymbol(address: Address): string {
 }
 
 export function getName(address: Address): string {
-  if (address.toHex() == '0xe0b7927c4af23765cb51314a0e0521a9645f0e2a') {
-    return 'DGD'
-  }
-  if (address.toHex() == '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9') {
-    return 'Aave Token'
-  }
-  if (address.toHex() == '0x5dbcf33d8c2e976c6b560249878e6f1491bca25c') {
-    return 'yUSD'
-  }
-  if (address.toHex() == '0xf94b5c5651c888d928439ab6514b93944eee6f48') {
-    return 'Yield App'
-  }
-  if (address.toHex() == '0x0309c98b1bffa350bcb3f9fb9780970ca32a5060') {
-    return 'BasketDAO DeFi Index'
-  }
-  if (address.toHex() == '0x3fa729b4548becbad4eab6ef18413470e6d5324c') {
-    return 'Mover'
-  }
-  if (address.toHex() == '0xe95a203b1a91a908f9b9ce46459d101078c2c3cb') {
-    return 'Ankr Eth2 Reward Bearing Certificate'
-  }
-
-  // CELO hardcode
-  if (address.toHex() == '0x471ece3750da237f93b8e339c536989b8978a438') {
-    return 'Celo Native Asset'
-  }
-
   const contract = ERC20.bind(address)
   const contractNameBytes = ERC20NameBytes.bind(address)
 
@@ -154,11 +103,6 @@ export function getTotalSupply(address: Address): BigInt {
     return BigInt.zero()
 }
   export function getDecimals(address: Address): BigInt {
-    // hardcode overrides
-    if (address.toHex() == '0xFa94348467f64D5A457F75F8bc40495D33c65aBB') {
-      return BigInt.fromI32(18)
-    }
-
     const contract = ERC20.bind(address)
 
     // try types uint8 for decimals
