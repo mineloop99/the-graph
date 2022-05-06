@@ -1,5 +1,5 @@
 import { Address } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, STASH_ADDRESS } from '../../../packages/constants/index.template'
+import { BIG_DECIMAL_ZERO, STASH_ADDRESS } from '../../../../subgraph-avax/packages/constants/index.template'
 import {  Stash } from '../../generated/schema'
 
 export function getStash(id: Address = STASH_ADDRESS): Stash {

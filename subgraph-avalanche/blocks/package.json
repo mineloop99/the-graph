@@ -1,13 +1,13 @@
 {
   "name": "blocks",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "files": [
     "generated"
   ],
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --product hosted-service mineloop99/avax-blocks",    
+    "deploy": "graph deploy --product hosted-service mineloop99/avalanche-blocks",    
     "prepare:fantom": "mustache ../../config/fantom.json subgraph.yaml > subgraph.yaml"
   }
 }

@@ -1,12 +1,12 @@
 specVersion: 0.0.2
-description: AVAX Blocks
-repository: https://github.com/mineloop99/the-graph/subgraph-avax
+description: Aurora Blocks
+repository: https://github.com/mineloop99/the-graph/subgraph-avalanche
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: ValidatorSet
-    network: alavanche
+    network: avalanche
     source:
       address: "0x0000000000000000000000000000000000001000"
       abi: ValidatorSet

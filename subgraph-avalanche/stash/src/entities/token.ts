@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, BIG_INT_ZERO, STASH, STASH_ADDRESS } from '../../../packages/constants/index.template'
+import { BIG_DECIMAL_ZERO, BIG_INT_ZERO, STASH, STASH_ADDRESS } from '../../../../subgraph-avax/packages/constants/index.template'
 
 import { ERC20 } from '../../generated/Stash/ERC20'
 import { ERC20NameBytes } from '../../generated/Stash/ERC20NameBytes'

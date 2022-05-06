@@ -8,7 +8,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --product hosted-service mineloop99/aurora-exchange"    
+    "deploy": "graph deploy --product hosted-service mineloop99/avalanche-swap"    
     }
 }
  

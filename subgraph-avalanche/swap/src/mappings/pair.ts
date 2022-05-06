@@ -1,4 +1,4 @@
-import { ADDRESS_ZERO, BIG_DECIMAL_ZERO, MINIMUM_USD_THRESHOLD_NEW_PAIRS, WHITELIST } from '../../../packages/constants/index.template'
+import { ADDRESS_ZERO, BIG_DECIMAL_ZERO, MINIMUM_USD_THRESHOLD_NEW_PAIRS} from '../../../packages/constants/index.template'
 import { Address, BigDecimal, BigInt, dataSource, log, store } from '@graphprotocol/graph-ts'
 import { Burn, Mint, Pair, Swap, Token, Transaction } from '../../generated/schema'
 import {
@@ -22,7 +22,7 @@ import {
   updatePairHourData,
   updateTokenDayData,
 } from '../enitites'
-import { findEthPerToken, getEthPrice } from '../pricing'
+import { findAvaxPerToken, getAvaxPrice } from '../pricing'
 
 const BLACKLIST_EXCHANGE_VOLUME: string[] = [
   '0x9ea3b5b4ec044b70375236a281986106457b20ef', // DELTA
@@ -41,51 +41,52 @@ export function getTrackedVolumeUSD(
   token1: Token,
   pair: Pair
 ): BigDecimal {
-  const bundle = getBundle()
-  const price0 = token0!.derivedETH.times(bundle.ethPrice)
-  const price1 = token1!.derivedETH.times(bundle.ethPrice)
+  // const bundle = getBundle()
+  // const price0 = token0!.derivedAVAX.times(bundle.avaxPrice)
+  // const price1 = token1!.derivedAVAX.times(bundle.avaxPrice)
 
-  const network = dataSource.network()
+  // const network = dataSource.network()
 
-  // if less than 5 LPs, require high minimum reserve amount amount or return 0
-  if (pair!.liquidityProviderCount.lt(BigInt.fromI32(5))) {
-    const reserve0USD = pair!.reserve0.times(price0)
-    const reserve1USD = pair!.reserve1.times(price1)
-    if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-      if (reserve0USD.plus(reserve1USD).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
-        return BIG_DECIMAL_ZERO
-      }
-    }
-    if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
-      if (reserve0USD.times(BigDecimal.fromString('2')).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
-        return BIG_DECIMAL_ZERO
-      }
-    }
-    if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-      if (reserve1USD.times(BigDecimal.fromString('2')).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
-        return BIG_DECIMAL_ZERO
-      }
-    }
-  }
+  // // if less than 5 LPs, require high minimum reserve amount amount or return 0
+  // if (pair!.liquidityProviderCount.lt(BigInt.fromI32(5))) {
+  //   const reserve0USD = pair!.reserve0.times(price0)
+  //   const reserve1USD = pair!.reserve1.times(price1)
+  //   if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //     if (reserve0USD.plus(reserve1USD).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
+  //       return BIG_DECIMAL_ZERO
+  //     }
+  //   }
+  //   if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
+  //     if (reserve0USD.times(BigDecimal.fromString('2')).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
+  //       return BIG_DECIMAL_ZERO
+  //     }
+  //   }
+  //   if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //     if (reserve1USD.times(BigDecimal.fromString('2')).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
+  //       return BIG_DECIMAL_ZERO
+  //     }
+  //   }
+  // }
 
-  // both are whitelist tokens, take average of both amounts
-  if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-    return tokenAmount0.times(price0).plus(tokenAmount1.times(price1)).div(BigDecimal.fromString('2'))
-  }
+  // // both are whitelist tokens, take average of both amounts
+  // if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount0.times(price0).plus(tokenAmount1.times(price1)).div(BigDecimal.fromString('2'))
+  // }
 
-  // take full value of the whitelisted token amount
-  if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
-    return tokenAmount0.times(price0)
-  }
+  // // take full value of the whitelisted token amount
+  // if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount0.times(price0)
+  // }
 
-  // take full value of the whitelisted token amount
-  if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-    return tokenAmount1.times(price1)
-  }
+  // // take full value of the whitelisted token amount
+  // if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount1.times(price1)
+  // }
 
   // neither token is on white list, tracked volume is 0
   return BIG_DECIMAL_ZERO
-  
+}
+
 /**
  * Accepts tokens and amounts, return tracked amount based on token whitelist
  * If one token on whitelist, return amount in that token converted to USD * 2.
@@ -98,26 +99,26 @@ export function getTrackedLiquidityUSD(
   tokenAmount1: BigDecimal,
   token1: Token
 ): BigDecimal {
-  const bundle = getBundle()
-  const price0 = token0!.derivedETH.times(bundle.ethPrice)
-  const price1 = token1!.derivedETH.times(bundle.ethPrice)
+  // const bundle = getBundle()
+  // const price0 = token0!.derivedAVAX.times(bundle.avaxPrice)
+  // const price1 = token1!.derivedAVAX.times(bundle.avaxPrice)
 
-  const network = dataSource.network()
+  // const network = dataSource.network()
 
-  // both are whitelist tokens, take average of both amounts
-  if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-    return tokenAmount0.times(price0).plus(tokenAmount1.times(price1))
-  }
+  // // both are whitelist tokens, take average of both amounts
+  // if (WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount0.times(price0).plus(tokenAmount1.times(price1))
+  // }
 
-  // take double value of the whitelisted token amount
-  if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
-    return tokenAmount0.times(price0).times(BigDecimal.fromString('2'))
-  }
+  // // take double value of the whitelisted token amount
+  // if (WHITELIST.includes(token0!.id) && !WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount0.times(price0).times(BigDecimal.fromString('2'))
+  // }
 
-  // take double value of the whitelisted token amount
-  if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
-    return tokenAmount1.times(price1).times(BigDecimal.fromString('2'))
-  }
+  // // take double value of the whitelisted token amount
+  // if (!WHITELIST.includes(token0!.id) && WHITELIST.includes(token1!.id)) {
+  //   return tokenAmount1.times(price1).times(BigDecimal.fromString('2'))
+  // }
 
   // neither token is on white list, tracked volume is 0
   return BIG_DECIMAL_ZERO
@@ -327,19 +328,19 @@ export function onSync(event: SyncEvent): void {
   // update ETH price now that reserves could have changed
   const bundle = getBundle()
   // Pass the block so we can get accurate price data before migration
-  bundle.ethPrice = getEthPrice( )
+  bundle.avaxPrice = getAvaxPrice( )
   bundle.save()
 
-  token0!.derivedETH = findEthPerToken(token0 as Token)
-  token1!.derivedETH = findEthPerToken(token1 as Token)
+  token0!.derivedAVAX = findAvaxPerToken(token0 as Token)
+  token1!.derivedAVAX = findAvaxPerToken(token1 as Token)
   token0!.save()
   token1!.save()
 
   // get tracked liquidity - will be 0 if neither is in whitelist
   let trackedLiquidityETH: BigDecimal
-  if (bundle.ethPrice.notEqual(BIG_DECIMAL_ZERO)) {
+  if (bundle.avaxPrice.notEqual(BIG_DECIMAL_ZERO)) {
     trackedLiquidityETH = getTrackedLiquidityUSD(pair!.reserve0, token0 as Token, pair!.reserve1, token1 as Token).div(
-      bundle.ethPrice
+      bundle.avaxPrice
     )
   } else {
     trackedLiquidityETH = BIG_DECIMAL_ZERO
@@ -348,13 +349,13 @@ export function onSync(event: SyncEvent): void {
   // use derived amounts within pair
   pair!.trackedReserveETH = trackedLiquidityETH
   pair!.reserveETH = pair!.reserve0
-    .times(token0!.derivedETH as BigDecimal)
-    .plus(pair!.reserve1.times(token1!.derivedETH as BigDecimal))
-  pair!.reserveUSD = pair!.reserveETH.times(bundle.ethPrice)
+    .times(token0!.derivedAVAX as BigDecimal)
+    .plus(pair!.reserve1.times(token1!.derivedAVAX as BigDecimal))
+  pair!.reserveUSD = pair!.reserveETH.times(bundle.avaxPrice)
 
   // use tracked amounts globally
   factory.liquidityETH = factory.liquidityETH.plus(trackedLiquidityETH)
-  factory.liquidityUSD = factory.liquidityETH.times(bundle.ethPrice)
+  factory.liquidityUSD = factory.liquidityETH.times(bundle.avaxPrice)
 
   // now correctly set liquidity amounts for each token
   token0!.liquidity = token0!.liquidity.plus(pair!.reserve0)
@@ -388,10 +389,10 @@ export function onMint(event: MintEvent): void {
 
   // get new amounts of USD and ETH for tracking
   let bundle = getBundle()
-  let amountTotalUSD = token1!.derivedETH
+  let amountTotalUSD = token1!.derivedAVAX
     .times(token1Amount)
-    .plus(token0!.derivedETH.times(token0Amount))
-    .times(bundle.ethPrice)
+    .plus(token0!.derivedAVAX.times(token0Amount))
+    .times(bundle.avaxPrice)
 
   // update txn counts
   pair!.txCount = pair!.txCount.plus(BigInt.fromI32(1))
@@ -478,10 +479,10 @@ export function onBurn(event: BurnEvent): void {
 
   // get new amounts of USD and ETH for tracking
   const bundle = getBundle()
-  const amountTotalUSD = token1!.derivedETH
+  const amountTotalUSD = token1!.derivedAVAX
     .times(token1Amount)
-    .plus(token0!.derivedETH.times(token0Amount))
-    .times(bundle.ethPrice)
+    .plus(token0!.derivedAVAX.times(token0Amount))
+    .times(bundle.avaxPrice)
 
   // update txn counts
   factory.txCount = factory.txCount.plus(BigInt.fromI32(1))
@@ -504,7 +505,7 @@ export function onBurn(event: BurnEvent): void {
   burn.save()
 
   // update the LP position
-  const liquidityPosition = createLiquidityPosition(burn!.sender, event.address, event.block)
+  const liquidityPosition = createLiquidityPosition(burn.sender, event.address, event.block)
   createLiquidityPositionSnapshot(liquidityPosition, event.block)
 
   // update day data
@@ -541,11 +542,11 @@ export function onSwap(event: SwapEvent): void {
   const bundle = getBundle()
 
   // get total amounts of derived USD and ETH for tracking
-  const derivedAmountETH = token1!.derivedETH
+  const derivedAmountETH = token1!.derivedAVAX
     .times(amount1Total)
-    .plus(token0!.derivedETH.times(amount0Total))
+    .plus(token0!.derivedAVAX.times(amount0Total))
     .div(BigDecimal.fromString('2'))
-  const derivedAmountUSD = derivedAmountETH.times(bundle.ethPrice)
+  const derivedAmountUSD = derivedAmountETH.times(bundle.avaxPrice)
 
   // only accounts for volume through white listed tokens
   const trackedAmountUSD = getTrackedVolumeUSD(
@@ -558,10 +559,10 @@ export function onSwap(event: SwapEvent): void {
 
   let trackedAmountETH: BigDecimal
 
-  if (bundle.ethPrice.equals(BIG_DECIMAL_ZERO)) {
+  if (bundle.avaxPrice.equals(BIG_DECIMAL_ZERO)) {
     trackedAmountETH = BIG_DECIMAL_ZERO
   } else {
-    trackedAmountETH = trackedAmountUSD.div(bundle.ethPrice)
+    trackedAmountETH = trackedAmountUSD.div(bundle.avaxPrice)
   }
 
   // update token0 global volume and token liquidity stats
@@ -668,17 +669,17 @@ export function onSwap(event: SwapEvent): void {
 
   // swap specific updating for token0
   token0DayData.volume = token0DayData.volume.plus(amount0Total)
-  token0DayData.volumeETH = token0DayData.volumeETH.plus(amount0Total.times(token1!.derivedETH as BigDecimal))
+  token0DayData.volumeETH = token0DayData.volumeETH.plus(amount0Total.times(token1!.derivedAVAX as BigDecimal))
   token0DayData.volumeUSD = token0DayData.volumeUSD.plus(
-    amount0Total.times(token0!.derivedETH as BigDecimal).times(bundle.ethPrice)
+    amount0Total.times(token0!.derivedAVAX as BigDecimal).times(bundle.avaxPrice)
   )
   token0DayData.save()
 
   // swap specific updating
   token1DayData.volume = token1DayData.volume.plus(amount1Total)
-  token1DayData.volumeETH = token1DayData.volumeETH.plus(amount1Total.times(token1!.derivedETH as BigDecimal))
+  token1DayData.volumeETH = token1DayData.volumeETH.plus(amount1Total.times(token1!.derivedAVAX as BigDecimal))
   token1DayData.volumeUSD = token1DayData.volumeUSD.plus(
-    amount1Total.times(token1!.derivedETH as BigDecimal).times(bundle.ethPrice)
+    amount1Total.times(token1!.derivedAVAX as BigDecimal).times(bundle.avaxPrice)
   )
   token1DayData.save()
 }

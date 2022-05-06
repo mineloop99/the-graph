@@ -1,5 +1,5 @@
 import { Address, BigInt, log } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, STASH } from '../../../packages/constants/index.template'
+import { BIG_DECIMAL_ZERO, STASH } from '../../../../subgraph-avax/packages/constants/index.template'
 
 import { Holder } from '../../generated/schema'
 import { getToken } from './token'

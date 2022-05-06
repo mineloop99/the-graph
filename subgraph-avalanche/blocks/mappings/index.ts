@@ -1,6 +1,6 @@
 import {
     ethereum
-} from "@graphprotocol/graph-ts"
+} from "@graphprotocol/graph-ts/chain/ethereum"
 
 import {
     Block
