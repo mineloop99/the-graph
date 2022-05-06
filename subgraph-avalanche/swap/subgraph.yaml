@@ -10,7 +10,7 @@ dataSources:
     source:
       address: "0x58a08bc28f3e8dab8fb2773d8f243bc740398b09"
       abi: Factory
-      startBlock: 3000000
+      startBlock: 3100000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -60,6 +60,8 @@ templates:
           file: ./abis/UniswapV2Pair.json
         - name: Factory
           file: ./abis/UniswapV2Factory.json
+        - name: AggregatorV3
+          file: ./abis/AggregatorV3.json
       eventHandlers:
         - event: Mint(indexed address,uint256,uint256)
           handler: onMint
@@ -71,18 +73,3 @@ templates:
           handler: onTransfer
         - event: Sync(uint112,uint112)
           handler: onSync
-  - kind: ethereum/contract
-    name: AggregatorV3
-    network: avalanche
-    source:
-      abi: AggregatorV3
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - AggregatorV3
-      file: ./src/mappings/pair.ts
-      abis:
-        - name: AggregatorV3
-          file: ./abis/AggregatorV3.json

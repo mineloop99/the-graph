@@ -174,7 +174,6 @@ type Token @entity {
   # Quote pairs day data
   quotePairsDayData: [PairDayData!]! @derivedFrom(field: "token1")
 }
-
 # Token hour data
 type TokenHourData @entity {
   # token id - hour start timestamp
