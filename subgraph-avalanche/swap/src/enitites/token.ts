@@ -102,17 +102,17 @@ export function getTotalSupply(address: Address): BigInt {
   }
     return BigInt.zero()
 }
-  export function getDecimals(address: Address): BigInt {
-    const contract = ERC20.bind(address)
+export function getDecimals(address: Address): BigInt {
+  const contract = ERC20.bind(address)
 
-    // try types uint8 for decimals
+  // try types uint8 for decimals
 
-    const decimalResult = contract.try_decimals()
+  const decimalResult = contract.try_decimals()
 
-    if (!decimalResult.reverted) {
+  if (!decimalResult.reverted) {
       let decimalValue = decimalResult.value
-      BigInt.fromI32(decimalValue)
-    }
-
-    return BigInt.zero()
+      return BigInt.fromI32(decimalValue)
   }
+
+  return BigInt.zero()
+}

@@ -1,9 +1,7 @@
-import { Address, BigDecimal, BigInt, Bytes, ethereum } from '@graphprotocol/graph-ts'
-import { BIG_DECIMAL_ZERO, BIG_INT_ZERO } from '../../../packages/constants/index.template'
-import { LiquidityPosition, Pair } from '../../generated/schema'
+import { Address, Bytes, ethereum } from '@graphprotocol/graph-ts'
+import { BIG_DECIMAL_ZERO } from '../../../packages/constants/index.template'
+import { LiquidityPosition} from '../../generated/schema'
 
-import { Pair as PairContract } from '../../generated/templates/Pair/Pair'
-import { getPair } from './pair'
 
 // TODO: getLiquidityPosition
 // export function getLiquidityPosition(id: string): LiquidityPosition {}
