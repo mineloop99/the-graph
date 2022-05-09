@@ -1,5 +1,5 @@
 import { 
-  AVAX_USD_ADDRESS,
+  AVAX_USD_DATA_FEEDS_ADDRESS,
   BIG_DECIMAL_ONE,
   BIG_DECIMAL_ZERO,
   FACTORY_ADDRESS,
@@ -26,7 +26,7 @@ export function getXoXoPrice(): BigDecimal {
 }
 
 export function getAvaxPrice(): BigDecimal {
-  const contract = AggregatorV3Contract.bind(AVAX_USD_ADDRESS)
+  const contract = AggregatorV3Contract.bind(AVAX_USD_DATA_FEEDS_ADDRESS)
   let amount:BigDecimal
   const amountResult = contract.try_latestRoundData()
   if (!amountResult.reverted) { 
@@ -46,7 +46,7 @@ export function findAvaxPerToken(token: Token): BigDecimal {
 
   for (let i = 0; i < whitelist.length; ++i) {
     const pairAddress = whitelist[i]
-    const pair = Pair!.load(pairAddress)
+    const pair = Pair.load(pairAddress)
 
     if (pair!.token0 == token.id) {
       const token1 = Token.load(pair!.token1)

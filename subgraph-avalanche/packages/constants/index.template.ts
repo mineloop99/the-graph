@@ -69,7 +69,7 @@ export const XOXO_TOKEN_ADDRESS = Address.fromString(
   "0x25afD99fcB474D7C336A2971F26966da652a92bc"
 )
 
-export const AVAX_USD_ADDRESS = Address.fromString(
+export const AVAX_USD_DATA_FEEDS_ADDRESS = Address.fromString(
   "0x0A77230d17318075983913bC2145DB16C7366156"
 )
 
@@ -84,3 +84,14 @@ export const USDT_ADDRESS = Address.fromString(
 export const NATIVE = Address.fromString(
   "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
 )
+
+export const WHITELIST: string[] = [
+  "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+  "0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab",
+  "0x50b7545627a5162f82a992c33b87adc75187b218",
+  "0x130966628846bfd36ff31a822705796e8cb8c18d",
+  "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
+  "0xc7198437980c041c805a1edcba50c1ce5db95118",
+  "0xd586e7f844cea2f87f50152665bcbc2c279d8d70",
+  "0x25afD99fcB474D7C336A2971F26966da652a92bc"
+]
