@@ -1,0 +1,69 @@
+type User @entity {
+  """
+  user address
+  """
+  id: ID!
+  borrowedReservesCount: Int!
+
+  #rewards
+  unclaimedRewards: BigInt!
+  lifetimeRewards: BigInt!
+  rewardsLastUpdated: Int!
+
+  reserves: [UserReserve!]! @derivedFrom(field: "user")
+}
+
+type UserReserve @entity {
+  """
+  user address + reserve address
+  """
+  id: ID!
+  user: User!
+  usageAsCollateralEnabledOnUser: Boolean!
+  scaledATokenBalance: BigInt!
+  currentATokenBalance: BigInt!
+  scaledVariableDebt: BigInt!
+  currentVariableDebt: BigInt!
+  principalStableDebt: BigInt!
+  currentStableDebt: BigInt!
+  currentTotalDebt: BigInt!
+  stableBorrowRate: BigInt!
+  oldStableBorrowRate: BigInt!
+  liquidityRate: BigInt!
+  stableBorrowLastUpdateTimestamp: Int!
+  variableBorrowIndex: BigInt!
+  """
+  Amount in currency units included as fee
+  """
+  lastUpdateTimestamp: Int!
+}
+
+# TODO: should we change the naming of usdPriceEth to have generic market naming?
+type PriceOracle @entity {
+  id: ID!
+  proxyPriceProvider: Bytes!
+  usdPriceEth: BigInt!
+  usdPriceEthMainSource: Bytes!
+  usdPriceEthFallbackRequired: Boolean!
+  usdDependentAssets: [PriceOracleAsset!]!
+  fallbackPriceOracle: Bytes!
+  tokens: [PriceOracleAsset!]! @derivedFrom(field: "oracle")
+  tokensWithFallback: [PriceOracleAsset!]!
+  lastUpdateTimestamp: Int!
+  version: Int!
+  baseCurrency: Bytes! # new for v3
+  baseCurrencyUnit: BigInt! # new for v3
+}
+
+# TODO: check nomenclature
+type PriceOracleAsset @entity {
+  # underlying asset address
+  id: ID!
+  oracle: PriceOracle!
+  priceInEth: BigInt!
+  priceSource: Bytes!
+  isFallbackRequired: Boolean! 
+  dependentAssets: [PriceOracleAsset!]!
+  lastUpdateTimestamp: Int!
+  fromChainlinkSourcesRegistry: Boolean!
+}

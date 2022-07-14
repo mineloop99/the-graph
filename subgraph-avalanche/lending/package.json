@@ -1,0 +1,15 @@
+{
+  "name": "exchange",
+  "license": "MIT",
+  "version": "1.0.0",
+  "files": [
+    "generated"
+  ],
+  "scripts": {
+    "build": "graph build",
+    "prepare:subgraph": "npx mustache ./config/avalanche-v1.json ./templates/v1-subgraph.yaml > subgraph.yaml && npm run subgraph:codegen",
+    "subgraph:codegen": "graph codegen",
+    "subgraph:deploy:hosted": "graph deploy --product hosted-service mineloop99/aave-lending",
+    "deploy:hosted:avalanche-v1": "npx VERSION=v1 NETWORK=avalanche env-cmd npm run prepare:subgraph && npm run subgraph:deploy:hosted"
+  }
+}

@@ -1,0 +1,139 @@
+specVersion: 0.0.4
+description: Exchange
+repository: https://github.com/mineloop99/the-graph/subgraph-avalanche/exchange
+schema:
+  file: ./schema.graphql
+dataSources:
+  # --------------------------------------
+  #      ORACLES / PRICE PROVIDERS
+  # --------------------------------------
+  - kind: ethereum/contract
+    name: PriceOracle
+    network: {{ network }}
+    source:
+      address: "{{PriceOracleAddress}}"
+      startBlock: {{ PriceOracleStartBlock }}
+      abi: PriceOracle
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PriceOracle
+      abis:
+        - name: PriceOracle
+          file: ./abis/v1/PriceOracle.json
+      eventHandlers:
+        - event: PriceUpdate(address,uint256)
+          handler: handleAssetPriceUpdated
+      file: src/mappings/price-oracle/v1.ts
+  - kind: ethereum/contract
+    name: ChainlinkAggregator
+    network: {{ network }}
+    source:
+      abi: AggregatorV3
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PriceOracle
+      abis:
+        - name: AggregatorV3
+          file: ./abis/helpers/AggregatorV3.json
+      eventHandlers:
+        - event: AnswerUpdated(indexed int256,indexed uint256,uint256)
+          handler: handleChainlinkAnswerUpdated
+      file: src/mappings/price-oracle/v1.ts
+  # # --------------------------------------
+  # #      AToken / Stable / Variable
+  # # --------------------------------------
+  # - kind: ethereum/contract
+  #   name: AToken
+  #   network: { { network } }
+  #   source:
+  #     abi: AToken
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.6
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - AToken
+  #       - UserReserve
+  #     abis:
+  #       - name: AToken
+  #         file: ./abis/v3/AToken.json
+  #       - name: IERC20Detailed
+  #         file: ./abis/helpers/IERC20Detailed.json
+  #       - name: RewardsController
+  #         file: ./abis/v3/RewardsController.json
+  #       - name: Pool
+  #         file: ./abis/v3/Pool.json
+  #     eventHandlers:
+  #       - event: Burn(indexed address,indexed address,uint256,uint256,uint256)
+  #         handler: handleATokenBurn
+  #       - event: BalanceTransfer(indexed address,indexed address,uint256,uint256)
+  #         handler: handleBalanceTransfer
+  #       - event: Mint(indexed address,indexed address,uint256,uint256,uint256)
+  #         handler: handleATokenMint
+  #       - event: Initialized(indexed address,indexed address,address,address,uint8,string,string,bytes)
+  #         handler: handleATokenInitialized
+  #     file: src/mapping/tokenization/initialization-v3.ts
+  # - kind: ethereum/contract
+  #   name: StableDebtToken
+  #   network: { { network } }
+  #   source:
+  #     abi: StableDebtToken
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.6
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - StableDebtToken
+  #       - UserReserve
+  #     abis:
+  #       - name: StableDebtToken
+  #         file: ./abis/v3/StableDebtToken.json
+  #       - name: IERC20Detailed
+  #         file: ./abis/helpers/IERC20Detailed.json
+  #       - name: RewardsController
+  #         file: ./abis/v3/RewardsController.json
+  #     eventHandlers:
+  #       - event: Burn(indexed address,uint256,uint256,uint256,uint256,uint256)
+  #         handler: handleStableTokenBurn
+  #       - event: Mint(indexed address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256)
+  #         handler: handleStableTokenMint
+  #       - event: BorrowAllowanceDelegated(indexed address,indexed address,indexed address,uint256)
+  #         handler: handleStableTokenBorrowAllowanceDelegated
+  #       - event: Initialized(indexed address,indexed address,address,uint8,string,string,bytes)
+  #         handler: handleSTokenInitialized
+  #     file: src/mapping/tokenization/initialization-v3.ts
+  # - kind: ethereum/contract
+  #   name: VariableDebtToken
+  #   network: { { network } }
+  #   source:
+  #     abi: VariableDebtToken
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.6
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - StableDebtToken
+  #       - UserReserve
+  #     abis:
+  #       - name: VariableDebtToken
+  #         file: ./abis/v3/VariableDebtToken.json
+  #       - name: IERC20Detailed
+  #         file: ./abis/helpers/IERC20Detailed.json
+  #       - name: RewardsController
+  #         file: ./abis/v3/RewardsController.json
+  #     eventHandlers:
+  #       - event: Burn(indexed address,indexed address,uint256,uint256,uint256)
+  #         handler: handleVariableTokenBurn
+  #       - event: Mint(indexed address,indexed address,uint256,uint256,uint256)
+  #         handler: handleVariableTokenMint
+  #       - event: BorrowAllowanceDelegated(indexed address,indexed address,indexed address,uint256)
+  #         handler: handleVariableTokenBorrowAllowanceDelegated
+  #       - event: Initialized(indexed address,indexed address,address,uint8,string,string,bytes)
+  #         handler: handleVTokenInitialized
+  #     file: src/mapping/tokenization/initialization-v3.ts

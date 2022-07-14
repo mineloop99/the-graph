@@ -1,0 +1,5 @@
+{
+  "network": "avalanche",
+  "PriceOracleAddress": "0xEBd36016B3eD09D4693Ed4251c67Bd858c3c7C9C",
+  "PriceOracleStartBlock": 11970000
+}

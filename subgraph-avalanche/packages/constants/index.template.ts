@@ -62,11 +62,11 @@ export const MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString(
 export const MINIMUM_LIQUIDITY_THRESHOLD_ETH = BigDecimal.fromString('3')
 
 export const FACTORY_ADDRESS = Address.fromString(
-  "0x58a08bc28f3e8dab8fb2773d8f243bc740398b09"
+  "0x0c6A0061F9D0afB30152b8761a273786e51bec6d"
 )
 
 export const XOXO_TOKEN_ADDRESS = Address.fromString(
-  "0x25afD99fcB474D7C336A2971F26966da652a92bc"
+  "0xf9430aD8da4af7fb4091C57FE523af1236FF5b2C"
 )
 
 export const AVAX_USD_DATA_FEEDS_ADDRESS = Address.fromString(
@@ -74,10 +74,16 @@ export const AVAX_USD_DATA_FEEDS_ADDRESS = Address.fromString(
 )
 
 export const XOXO_USDT_PAIR_ADDRESS = Address.fromString(
-  "0x985E3f704a28FBAeA6Fe66403Db94A4C1c4FC457"
+  "0xB02972A9Fd0F9d3FddD6e8885fDea380FF304473"
 )
 
+export const XOXO_USDC_PAIR_ADDRESS = Address.fromString(
+  "0xB02972A9Fd0F9d3FddD6e8885fDea380FF304473"
+)
 export const USDT_ADDRESS = Address.fromString(
+  "0xc7198437980c041c805A1EDcbA50c1Ce5db95118"
+)
+export const USDC_ADDRESS = Address.fromString(
   "0xc7198437980c041c805A1EDcbA50c1Ce5db95118"
 )
 

@@ -8,7 +8,7 @@ import {
   NATIVE,
   USDT_ADDRESS,
   XOXO_TOKEN_ADDRESS,
-  XOXO_USDT_PAIR_ADDRESS,
+  XOXO_USDC_PAIR_ADDRESS,
 } from '../constants/index.template'
 import { Address, BigDecimal, BigInt, ethereum, log } from '@graphprotocol/graph-ts'
 
@@ -22,7 +22,7 @@ export function getUSDRate(token: Address, block: ethereum.Block): BigDecimal {
 
     const tokenPriceETH = getAvaxRate(token, block)
 
-    const pair = PairContract.bind(XOXO_USDT_PAIR_ADDRESS)
+    const pair = PairContract.bind(XOXO_USDC_PAIR_ADDRESS)
 
     const reserves = pair.getReserves()
 
@@ -75,7 +75,7 @@ export function geXoxoPrice(block: ethereum.Block): BigDecimal {
   } else {
     // Else get price from either uni or xoxo usdt pair depending on space-time
     const pair = PairContract.bind(
-      XOXO_USDT_PAIR_ADDRESS
+      XOXO_USDC_PAIR_ADDRESS
     )
     const reserves = pair.getReserves()
     return reserves.value1

@@ -4,7 +4,7 @@ import {
   BIG_DECIMAL_ZERO,
   FACTORY_ADDRESS,
   NATIVE,
-  XOXO_USDT_PAIR_ADDRESS,
+  XOXO_USDC_PAIR_ADDRESS,
 } from '../../packages/constants/index.template'
 import { Address, BigDecimal } from '@graphprotocol/graph-ts'
 import { Pair, Token } from '../generated/schema'
@@ -16,7 +16,7 @@ import { AggregatorV3 as AggregatorV3Contract } from '../generated/Factory/Aggre
 export const factoryContract = FactoryContract.bind(FACTORY_ADDRESS)
 
 export function getXoXoPrice(): BigDecimal {
-  const pair = Pair.load(XOXO_USDT_PAIR_ADDRESS.toHexString())
+  const pair = Pair.load(XOXO_USDC_PAIR_ADDRESS.toHexString())
 
   if (pair) {
     return pair!.token1Price
