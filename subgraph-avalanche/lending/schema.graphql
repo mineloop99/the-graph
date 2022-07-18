@@ -19,6 +19,7 @@ type UserReserve @entity {
   """
   id: ID!
   user: User!
+  reserve: Reserve!
   usageAsCollateralEnabledOnUser: Boolean!
   scaledATokenBalance: BigInt!
   currentATokenBalance: BigInt!
@@ -60,10 +61,112 @@ type PriceOracleAsset @entity {
   # underlying asset address
   id: ID!
   oracle: PriceOracle!
-  priceInEth: BigInt!
+  price: BigInt!
+  decimals: Int!
   priceSource: Bytes!
   isFallbackRequired: Boolean! 
   dependentAssets: [PriceOracleAsset!]!
   lastUpdateTimestamp: Int!
   fromChainlinkSourcesRegistry: Boolean!
+}
+
+type PriceHistoryItem @entity {
+  id: ID!
+  asset: PriceOracleAsset!
+  price: BigInt!
+  decimals: Int!
+  timestamp: Int!
+}
+
+type UsdEthPriceHistoryItem @entity {
+  id: ID!
+  oracle: PriceOracle!
+  price: BigInt!
+  timestamp: Int!
+}
+
+type ChainlinkAggregator @entity {
+  # aggregator address
+  id: ID!
+  oracleAsset: PriceOracleAsset!
+}
+type Reserve @entity {
+  """
+  Reserve address
+  """
+  id: ID!
+  underlyingAsset: Bytes! 
+  symbol: String!
+  name: String!
+  decimals: Int!
+  usageAsCollateralEnabled: Boolean! # defalt false
+  borrowingEnabled: Boolean! # defalt false
+  stableBorrowRateEnabled: Boolean! # defalt false
+  isActive: Boolean! # defalt false
+  isFrozen: Boolean! # defalt false
+  price: PriceOracleAsset!
+  reserveInterestRateStrategy: Bytes!
+  optimalUtilisationRate: BigInt!
+  variableRateSlope1: BigInt!
+  variableRateSlope2: BigInt!
+  stableRateSlope1: BigInt!
+  stableRateSlope2: BigInt!
+  baseVariableBorrowRate: BigInt!
+  baseLTVasCollateral: BigInt!
+  reserveLiquidationThreshold: BigInt!
+  reserveLiquidationBonus: BigInt!
+  utilizationRate: BigDecimal! # default: 0
+  totalLiquidity: BigInt! # default: 0
+  totalATokenSupply: BigInt!
+  totalLiquidityAsCollateral: BigInt! # default: 0
+  availableLiquidity: BigInt! # default: 0
+  totalPrincipalStableDebt: BigInt! # default: 0
+  totalScaledVariableDebt: BigInt! # default: 0
+  totalCurrentVariableDebt: BigInt! # default: 0
+  totalSupplies: BigInt! # default: 0
+  liquidityRate: BigInt! # suppliers interest
+  accruedToTreasury: BigInt!
+  averageStableRate: BigInt!
+  variableBorrowRate: BigInt!
+  stableBorrowRate: BigInt!
+  liquidityIndex: BigInt!
+  variableBorrowIndex: BigInt! 
+  reserveFactor: BigInt! #default 0
+  lastUpdateTimestamp: Int!
+  stableDebtLastUpdateTimestamp: Int!
+
+  # v3
+  isPaused: Boolean!
+  isDropped: Boolean!
+
+  # TODO: how to get this on creation?
+  borrowCap: BigInt
+  supplyCap: BigInt
+  debtCeiling: BigInt
+  unbackedMintCap: BigInt
+
+  liquidationProtocolFee: BigInt
+
+  borrowableInIsolation: Boolean 
+  siloedBorrowing: Boolean!
+
+  lifetimeLiquidity: BigInt! # default: 0
+  lifetimePrincipalStableDebt: BigInt! # default: 0
+  lifetimeScaledVariableDebt: BigInt! # default: 0
+  lifetimeCurrentVariableDebt: BigInt! # default: 0
+  lifetimeRepayments: BigInt! # default: 0
+  lifetimeWithdrawals: BigInt! # default: 0
+  lifetimeBorrows: BigInt! # default: 0
+  lifetimeLiquidated: BigInt! # default: 0
+  lifetimeFlashLoans: BigInt! # default: 0
+  lifetimeFlashLoanPremium: BigInt! # deprecated
+  lifetimeFlashLoanLPPremium: BigInt! # default: 0
+  lifetimeFlashLoanProtocolPremium: BigInt!
+  lifetimePortalLPFee: BigInt!
+  lifetimePortalProtocolFee: BigInt!
+  lifetimeSuppliersInterestEarned: BigInt!
+  lifetimeReserveFactorAccrued: BigInt!
+  # lifetimeStableDebFeeCollected: BigInt!
+  # lifetimeVariableDebtFeeCollected: BigInt!
+  userReserves: [UserReserve!]! @derivedFrom(field: "reserve") 
 }

@@ -1,30 +1,53 @@
 import { Address, BigInt, Bytes, ethereum, log } from '@graphprotocol/graph-ts';
 
 import {
-  AssetPriceUpdated,
-  EthPriceUpdated,
-} from '../../../generated/templates/FallbackPriceOracle/PriceOracle';
-import { AnswerUpdated } from '../../../generated/templates/ChainlinkAggregator/IExtendedPriceAggregator';
+  PriceUpdate, 
+} from '../../../generated/PriceOracle/PriceOracle';
+import { AnswerUpdated } from '../../../generated/ChainlinkAggregator/AggregatorV3';
 import { formatUsdEthChainlinkPrice, zeroBI } from '../../utils/converters';
-import {
-  getChainlinkAggregator,
+import { 
+  getChainlinkAggregator, 
   getOrInitPriceOracle,
   getPriceOracleAsset,
-} from '../../helpers/v3/initializers';
-import { PriceOracle } from '../../../generated/schema'; 
+} from '../../helpers/initializers'; 
+import { MOCK_USD_ADDRESS } from '../../utils/constants';
+import {PriceOracle as HunnyOracle} from '../../../generated/schema'
+import { PriceOracle } from '../../../generated/PriceOracle/PriceOracle'; 
+import { genericPriceUpdate, usdEthPriceUpdate } from '../../helpers/price-updates';
 // GANACHE
-export function handleAssetPriceUpdated(event: AssetPriceUpdated): void {
-  let oracleAsset = getPriceOracleAsset(event.params._asset.toHexString());
-  genericPriceUpdate(oracleAsset, event.params._price, event);
+export function handleAssetPriceUpdated(event: PriceUpdate): void {
+  let oracleAsset = getPriceOracleAsset(event.params.token.toHexString());
+  genericPriceUpdate(oracleAsset, event.params.tokenPrice, event);
 }
- 
+
+function genericHandleChainlinkUSDETHPrice(
+  price: BigInt,
+  event: ethereum.Event,
+  priceOracle: HunnyOracle,
+  proxyPriceProvider: PriceOracle
+): void {
+  if (price.gt(zeroBI())) {
+    priceOracle.usdPriceEthFallbackRequired = false;
+    usdEthPriceUpdate(priceOracle, formatUsdEthChainlinkPrice(price), event);
+  } else {
+    priceOracle.usdPriceEthFallbackRequired = true;
+    usdEthPriceUpdate(
+      priceOracle,
+      formatUsdEthChainlinkPrice(
+        proxyPriceProvider.getAssetPriceUSD(Address.fromString(MOCK_USD_ADDRESS)).value1
+      ),
+      event
+    );
+  }
+}
+
 // Ropsten and Mainnet
 export function handleChainlinkAnswerUpdated(event: AnswerUpdated): void {
   let priceOracle = getOrInitPriceOracle();
   let chainlinkAggregator = getChainlinkAggregator(event.address.toHexString());
 
   if (priceOracle.usdPriceEthMainSource.equals(event.address)) {
-    let proxyPriceProvider = AaveOracle.bind(
+    let proxyPriceProvider = PriceOracle.bind(
       Address.fromString(priceOracle.proxyPriceProvider.toHexString())
     );
     genericHandleChainlinkUSDETHPrice(event.params.current, event, priceOracle, proxyPriceProvider);
@@ -51,12 +74,12 @@ export function handleChainlinkAnswerUpdated(event: AnswerUpdated): void {
       } else {
         // oracle answer invalid, start using fallback oracle
         oracleAsset.isFallbackRequired = true;
-        let proxyPriceProvider = AaveOracle.bind(
+        let proxyPriceProvider = PriceOracle.bind(
           Address.fromString(priceOracle.proxyPriceProvider.toHexString())
         );
-        let assetPrice = proxyPriceProvider.try_getAssetPrice(Address.fromString(oracleAsset.id));
+        let assetPrice = proxyPriceProvider.try_getAssetPriceUSD(Address.fromString(oracleAsset.id));
         if (!assetPrice.reverted) {
-          genericPriceUpdate(oracleAsset, assetPrice.value, event);
+          genericPriceUpdate(oracleAsset, assetPrice.value.value1, event);
         } else {
           log.error(
             'OracleAssetId: {} | ProxyPriceProvider: {} | EventParamsCurrent: {} | EventAddress: {}',
